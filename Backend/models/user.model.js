@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         required:[true,"Password is required"],
         minlength:[6,"Password must be at least 6 characters"]
     },
+    isVerified:{
+        type:Boolean,
+        default:false
+    },
     cartItem:[
         {
             quantity:{
@@ -54,4 +58,6 @@ userSchema.methods.comparePassword = async function (password){
     return bcrypt.compare(password,this.password);
 }
 
-export default mongoose.model("User",userSchema);
+const User = mongoose.model("User",userSchema);
+
+export default User;
