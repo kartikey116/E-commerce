@@ -1,9 +1,20 @@
-function App() {
-  
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./Pages/HomePage.jsx";
+import Login from "./Pages/Login.jsx";
+import SignUp from "./Pages/SignUp.jsx";
+import Navbar from "./components/Navbar.jsx"
 
+
+function App() {
+ 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello World</h1>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/login" element={<Login/>} />
+      </Routes>
     </>
   )
 }
