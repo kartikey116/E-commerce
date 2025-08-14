@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react'; // Importing icons for password visibility
 import { Link } from 'react-router-dom';
+import { useUserStore } from '../stores/useUserStore.js';
 
 const Signup = () => {
   // State for form fields
@@ -18,6 +19,9 @@ const Signup = () => {
 
   // State for mouse position to handle the glowing cursor effect
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  //for API CALLING
+   const { signup, loading } = useUserStore();
 
   // Variants for parent container animation
   const containerVariants = {
@@ -86,15 +90,12 @@ const Signup = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      console.error("Passwords do not match!");
-      // In a real app, you would show a user-facing error message
-      return;
-    }
-    console.log('Form Submitted!', { name, email, password });
-    // Reset form fields
+
+    // call to backend
+    await signup({name, email, password, confirmPassword});
+
     setName('');
     setEmail('');
     setPassword('');

@@ -1,5 +1,5 @@
 import Product from "../models/product.model.js";
-import redis from "../config/redis.config.js";
+import redis from "../lib/redis.js";
 
 export const getAllProducts = async (req, res) => {
   try {

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react'; // Icons for password visibility
 import { Link } from 'react-router-dom';
+import { useUserStore } from '../stores/useUserStore.js';
 
 const Login = () => {
   // State for form fields
@@ -13,6 +14,8 @@ const Login = () => {
 
   // State for mouse position to handle the glowing cursor effect
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const { login , loading } = useUserStore();
 
   // Variants for parent container animation
   const containerVariants = {
@@ -52,8 +55,7 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login Submitted!', { email, password });
-    // Reset form fields
+    login({email, password});
     setEmail('');
     setPassword('');
   };
