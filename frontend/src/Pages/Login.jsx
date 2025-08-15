@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react'; // Icons for password visibility
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../stores/useUserStore.js';
 
 const Login = () => {
@@ -16,6 +16,7 @@ const Login = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { login , loading } = useUserStore();
+  const navigate = useNavigate();
 
   // Variants for parent container animation
   const containerVariants = {
@@ -53,11 +54,17 @@ const Login = () => {
   }, []);
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    login({email, password});
-    setEmail('');
-    setPassword('');
+    try {
+      await login({email, password});
+      setEmail('');
+      setPassword('');
+      navigate('/'); // Navigate to HomePage on successful login
+    } catch (error) {
+      // Error handling is already done in useUserStore, so just log here if needed
+      console.error("Login failed:", error);
+    }
   };
 
   return (

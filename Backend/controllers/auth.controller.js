@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import OTP from "../models/otp.model.js";
-import { redis } from "../lib/redis.js";
+import redis  from "../lib/redis.js";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import crypto from "crypto";
@@ -175,7 +175,13 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-export const getProfile = async (req, res) => {};
+export const getProfile = async (req, res) => {
+  try {
+    res.json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 
 const transporter = nodemailer.createTransport({

@@ -9,6 +9,7 @@ import analyticRoutes from "./routes/analytics.route.js"
 import connectDB from "./lib/db.js";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 
 dotenv.config();
@@ -25,6 +26,11 @@ app.use("/api/cart",cartRoutes);
 app.use("/api/coupons",couponRoutes);
 app.use("/api/payment",paymentRoutes);
 app.use("/api/analytic",analyticRoutes);
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 
 app.listen(PORT, () => {
   console.log("Server is running on port" + PORT);
