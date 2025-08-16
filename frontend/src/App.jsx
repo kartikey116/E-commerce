@@ -5,9 +5,14 @@ import SignUp from "./Pages/SignUp.jsx";
 import Navbar from "./components/Navbar.jsx"
 import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./stores/useUserStore.js";
+import { useEffect } from "react";
 
 function App() {
-  const { user } = useUserStore();
+  const {user , checkAuth} = useUserStore();
+
+  useEffect(() => {
+    checkAuth();
+  },[checkAuth])
  
   return (
     <>
@@ -15,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path="/signup" element={<SignUp/>} />
-        <Route path="/login" element={user ? <HomePage/> : <Login/>} />
+        <Route path="/login" element={!user ? <Login/> : <Navigate to="/" />} />
       </Routes>
       <Toaster/>
     </>
