@@ -129,7 +129,7 @@ const Login = () => {
               </button>
             </div>
             <p className="mt-2 text-right text-xs text-gray-400">
-              <a href="#" className="text-emerald-500 hover:underline">Forgot Password?</a>
+              <Link to="/forgot-password" className="text-emerald-500 hover:underline">Forgot Password?</Link>
             </p>
           </motion.div>
           <motion.div variants={itemVariants}>

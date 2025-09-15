@@ -52,9 +52,10 @@ export const signup = async (req, res) => {
       .string()
       .min(6, "Password must be at least 6 characters")
       .max(50),
+    otp:z.string().min(6, "OTP must be at least 6 characters").max(6),
   });
 
-  const { name, email, password } = await user.parseAsync(req.body);
+  const { name, email, password ,otp} = await user.parseAsync(req.body);
 
   try {
     const userExits = await User.findOne({ email });
@@ -62,7 +63,17 @@ export const signup = async (req, res) => {
       return res.status(401).json({ message: "User already exists" });
     }
 
-    const user = await User.create({ name, email, password });
+    const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
+    const purpose = "verify"; 
+    const match = await OTP.findOne({ email, code: hashedOTP, purpose });
+
+    if (!match) {
+        return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    const user = await User.create({ name, email, password , isVerified:true });
+
+    await OTP.deleteMany({ email, purpose }); 
 
     //authenticate user
     const { accessToken, refreshToken } = generateTokens(user._id);
@@ -80,6 +91,9 @@ export const signup = async (req, res) => {
       message: "User created successfully",
     });
   } catch (error) {
+    if (err.name === "ZodError") {
+      return res.status(400).json({ message: err.errors[0].message });
+    }
     res.status(500).json({ message: error.message });
   }
 };

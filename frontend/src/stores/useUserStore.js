@@ -6,13 +6,14 @@ export const useUserStore = create((set, get) => ({
     user: null,
     loading: false,
     checkingAuth: true,
+    cart: [],
 
     // This function's name is now changed to 'verifyEmail'
     verifyEmail: async (email) => {
         set({ loading: true });
         try {
-            Consolle.log("api selectCalculatedXAxisPadding...");
-            await axios.post('/auth/request-otp', { email });
+            console.log("api selectCalculatedXAxisPadding...");
+            await axios.post('/auth/request-otp', { email: email, purpose: "verify" });
             toast.success('OTP sent to your email!');
             set({ loading: false });
         } catch (error) {
@@ -25,7 +26,7 @@ export const useUserStore = create((set, get) => ({
     verifyOTP: async (email, otp) => {
         set({ loading: true });
         try {
-            await axios.post('/auth/verify-otp', { email, otp });
+            await axios.post('/auth/verify-otp', { email, otp , purpose: "verify" });
             toast.success('OTP verified successfully!');
             set({ loading: false });
         } catch (error) {
@@ -75,7 +76,7 @@ export const useUserStore = create((set, get) => ({
         set({ loading: true });
         try {
             const res = await axios.get('/auth/profile');
-            set({ user: response.data, checkingAuth: false });
+            set({ user: res.data, checkingAuth: false });
         } catch (error) {
             console.log(error.message);
 			set({ checkingAuth: false, user: null });

@@ -12,8 +12,10 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.11",
+    "axios": "^1.12.2",
     "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.23.12",
+    "mem": "^9.0.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-toastify": "^11.0.5",
