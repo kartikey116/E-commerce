@@ -20,7 +20,9 @@ const CreateProductForm = () => {
 		try {
 			await createProduct(newProduct);
 			setNewProduct({ name: "", description: "", price: "", category: "", image: "" });
+			toast.success("Product created successfully");
 		} catch {
+			toast.error("Error creating a product");
 			console.log("error creating a product");
 		}
 	};

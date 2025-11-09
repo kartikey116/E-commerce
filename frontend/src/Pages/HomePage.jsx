@@ -120,11 +120,11 @@ export default function HomePage() {
 
           {/* Centered Model Image aur Text Group */}
           <div className="relative z-20 flex flex-col items-center">
-            <img 
+            {/* <img 
               src="/hero-model.png" 
               alt="Fashion Model" 
               className="w-full max-w-sm sm:max-w-md md:max-w-lg h-auto object-contain drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]" // Increased shadow for better integration
-            />
+            /> */}
             {/* ShopEase Branding ko image ke neeche add kiya */}
             <h2 className="text-6xl md:text-8xl font-extrabold text-white mt-8 mb-4">
               Shop<span className="text-emerald-400">Ease</span>
