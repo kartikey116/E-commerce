@@ -7,6 +7,7 @@ import ForgotPassword from "./Pages/ForgetPassword.jsx";
 import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./stores/useUserStore.js";
 import { useEffect } from "react";
+import AdminPage from "./Pages/AdminPage.jsx";
 
 function App() {
   const {user , checkAuth} = useUserStore();
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signup" element={!user ? <SignUp/> : <Navigate to="/" />} />
         <Route path="/login" element={!user ? <Login/> : <Navigate to="/" />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/secret-dashboard" element={user?.role?.toLowerCase() === "admin" ? <AdminPage /> : <Navigate to="/login"/>}/>
       </Routes>
       <Toaster/>
     </>

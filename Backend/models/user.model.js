@@ -22,11 +22,11 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    cartItem:[
+    cartItems:[
         {
             quantity:{
                 type:Number,
-                dafault:1
+                default:1
             },
             product:{
                 type:mongoose.Schema.Types.ObjectId,

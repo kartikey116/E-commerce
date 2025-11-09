@@ -1,6 +1,6 @@
 import express from "express";
 import {signup,login,logout} from "../controllers/auth.controller.js";
-import loginLimiter from "../middleware/loginlimiter.js";
+import loginLimiter from "../middleware/loginLimiter.js";
 import {refreshToken} from "../controllers/auth.controller.js";
 import {getProfile} from "../controllers/auth.controller.js";
 import {requestOTP,verifyOTP,resetPassword} from "../controllers/auth.controller.js";

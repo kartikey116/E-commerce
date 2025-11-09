@@ -118,7 +118,7 @@ export const useUserStore = create((set, get) => ({
 
     try {
       const response = await axios.post("/auth/refresh-token");
-      set({ checkingAuth: false, user: response.data });//Marks checkingAuth as false (refresh finished).Updates user in state with the new data from backend.
+      set({ checkingAuth: false, user: response.data }); //Marks checkingAuth as false (refresh finished).Updates user in state with the new data from backend.
       toast.success("Token refreshed successfully!");
       return response.data;
     } catch (error) {
@@ -139,8 +139,9 @@ axios.interceptors.response.use(
     const originalRequest = error.config;
     if (
       error.response.status === 401 &&
-      error.config &&
-      !error.config.__isRetryRequest
+      originalRequest &&
+      !originalRequest._retry &&
+      !isRefreshRequest
     ) {
       originalRequest._retry = true;
 
@@ -183,7 +184,7 @@ axios.interceptors.response.use(
 // That’s why you see this line:
 // refreshPromise = useUserStore.getState().refreshToken();
 // This means:
-// ➡️ “Hey, my access token failed. Let me ask the refreshToken function to fix it for me.”
+// “Hey, my access token failed. Let me ask the refreshToken function to fix it for me.”
 // Once refreshToken resolves successfully, the interceptor retries the failed request with the new access token.
 
 // refreshToken = the mechanic who can repair/replace your expired access token.

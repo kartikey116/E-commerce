@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import redis from "../lib/redis.js";
+import cloudinary from "../lib/cloudinary.js"; // ADD THIS IMPORT
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -28,7 +29,6 @@ export const getFeaturedProducts = async (req, res) => {
     }
 
     // store in redis for future quick access
-
     await redis.set("featured_products", JSON.stringify(featuredProducts));
 
     res.json(featuredProducts);
@@ -80,8 +80,7 @@ export const deleteProduct = async (req, res) => {
         await cloudinary.uploader.destroy(`products/${publicId}`);
         console.log("Deleted image from cloudinary");
       } catch (error) {
-        console.log("Error in deleteProduct controller", error.message);
-        res.status(500).json({ message: "Server error", error: error.message });
+        console.log("Error deleting from cloudinary", error.message);
       }
     }
 
@@ -141,6 +140,10 @@ export const toggleFeaturedProduct = async (req, res) => {
 
     product.isFeatured = !product.isFeatured;
     await product.save();
+    
+    // Update redis cache
+    await updateFeaturedProductsCache();
+    
     res.json({
       message: `Product ${
         product.isFeatured ? "marked as featured" : "removed from featured"
@@ -148,7 +151,17 @@ export const toggleFeaturedProduct = async (req, res) => {
       product,
     });
   } catch (error) {
-	console.log("Error in toggleFeaturedProduct controller", error.message);
-	res.status(500).json({ message: "Server error", error: error.message });
+    console.log("Error in toggleFeaturedProduct controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// Helper function to update featured products cache
+async function updateFeaturedProductsCache() {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true }).lean();
+    await redis.set("featured_products", JSON.stringify(featuredProducts));
+  } catch (error) {
+    console.log("Error updating featured products cache");
+  }
+}
