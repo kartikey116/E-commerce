@@ -2,7 +2,7 @@ import CategoryItem from "@/components/CategoryItem";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Facebook, Twitter, Instagram } from "lucide-react"; 
 
-// --- "Cached" Data (Module level par defined) ---
+
 const categories = [
   { href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
   { href: "/t-shirts", name: "T-shirts", imageUrl: "/tshirts.jpg" },
@@ -18,8 +18,6 @@ const featuredProducts = [
   { id: 3, name: "Vegan Leather Sneakers", price: 120.00, rating: 5, reviewCount: 210, imageUrl: "/shoes.jpg" },
   { id: 4, name: "Recycled Material Jacket", price: 149.99, rating: 4, reviewCount: 45, imageUrl: "/jackets.jpg" },
 ];
-
-// --- Sub-Components (Isi file mein defined) ---
 
 function ProductCard({ product }) {
   return (
@@ -142,10 +140,10 @@ export default function HomePage() {
           </div>
           
           {/* Scroll Down prompt */}
-          <div className="absolute bottom-10 left-10 z-20 hidden sm:flex items-center space-x-2 text-gray-400">
+          {/* <div className="absolute bottom-10 left-10 z-20 hidden sm:flex items-center space-x-2 text-gray-400">
              <div className="w-10 h-px bg-gray-400"></div>
              <span>Scroll Down</span>
-          </div>
+          </div> */}
         </section>
 
         {/* --- 2. FEATURED PRODUCTS SECTION --- */}

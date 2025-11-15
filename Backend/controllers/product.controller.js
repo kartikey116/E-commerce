@@ -124,7 +124,7 @@ export const getProductsByCategory = async (req, res) => {
     const products = await Product.find({ category }).select(
       "_id name price image category"
     );
-    res.json(products);
+    res.json({products});
   } catch (error) {
     console.log("Error in getProductsByCategory controller", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
